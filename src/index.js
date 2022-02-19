@@ -5,8 +5,19 @@ const bcrypt = require("bcrypt");
 const body = require("body-parser")
 const {generateAccessToken, verificarJWT} = require("./token")
 const dotenv = require('dotenv');
-app.use(body.urlencoded({ extended: false }));
+const multer = require('multer');
+const cord = require('cors')
+const multipar = require('connect-multiparty')
+
+const multiPartMiddleware = multipar({
+    uploadDir: 'src/subidas'
+})
+ 
+
+// let upload = multer({storage: storage});
+app.use(body.urlencoded({ extended: true }));
 app.use(body.json());
+app.use(cord())
 dotenv.config()
 app.listen(process.env.PORT);
 
@@ -329,3 +340,23 @@ app.get("/verifi", verificarJWT, (req, res)=>{
         "mensaje": "Token valido"
     })
 })
+
+
+///
+
+app.post('/upload', multiPartMiddleware, function (req, res) {
+    console.log(req)
+    return
+    if (!req.file) {
+        console.log("No file received");
+        return res.send({
+          success: false
+        });
+    
+      } else {
+        console.log('file received');
+        return res.send({
+          success: true
+        })
+      }
+});
