@@ -147,7 +147,7 @@ app.post("/ingresar", (req, res)=>{
 
 //Prudoctos
 //Obtener todos los producots
-app.get("/getproductos", verificarJWT, (req, res)=>{
+app.get("/getproductos", (req, res)=>{
     db.getConnection(async (err, connection)=>{
         if (err) throw (err)
         const sqlSearch = "Select * from productos"
@@ -180,7 +180,7 @@ app.get("/getproducto", verificarJWT, (req, res)=>{
 })
 
 //Obtener productos por categorias
-app.get("/getproductocat", verificarJWT, (req, res)=>{
+app.get("/getproductocat", (req, res)=>{
     const busqueda = req.query.categoria
     db.getConnection(async (err, connection)=>{
         if (err) throw (err)
@@ -262,7 +262,7 @@ app.post("/editarproductos",verificarJWT, async(req, res)=>{
 
 // Categoria
 //Obterner todas las categorias
-app.get("/getcategorias", verificarJWT, (req, res)=>{
+app.get("/getcategorias", (req, res)=>{
     db.getConnection(async (err, connection)=>{
         if (err) throw (err)
         const sqlSearch = "Select * from categoria"
