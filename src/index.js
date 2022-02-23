@@ -12,7 +12,7 @@ const multipar = require('connect-multiparty')
 const multiPartMiddleware = multipar({
     uploadDir: 'src/subidas'
 })
- 
+
 
 // let upload = multer({storage: storage});
 app.use(body.urlencoded({ extended: true }));
@@ -47,7 +47,7 @@ db.getConnection((err, connection)=>{
 console.log('Server iniciado');
 
 
-//Auth 
+//Auth
 
 //Crear Usuario
 app.post("/crearusurio", async (req, resp)=>{
@@ -127,7 +127,7 @@ app.post("/ingresar", (req, res)=>{
                             "perfil": {
                                 "id": result[0].id,
                                 "name": result[0].nombre,
-                                "rol": result[0].rol 
+                                "rol": result[0].rol
                             }
                         }
                     })
@@ -142,7 +142,7 @@ app.post("/ingresar", (req, res)=>{
     })
 })
 
-//Fin auth 
+//Fin auth
 
 
 //Prudoctos
@@ -223,7 +223,7 @@ app.post("/agregarproductos",verificarJWT, async(req, res)=>{
     db.getConnection(async (err, connection)=>{
         if(err) throw (err);
         const sqlSearch = "INSERT INTO productos (`id`, `nombre`, `descripcion`, `imagen`, `precio`, `categoria`) VALUES (null,?,?,?,?,?)"
-        
+
         const insert_query = mysql.format(sqlSearch,[nombre, descripcion, imagen, precio, categoria]);
         await connection.query(insert_query, (err, result)=>{
             if(err) throw (err);
@@ -246,7 +246,7 @@ app.post("/editarproductos",verificarJWT, async(req, res)=>{
     db.getConnection(async (err, connection)=>{
         if(err) throw (err);
         const sqlSearch = "UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, precio = ?, categoria = ? WHERE id = ?"
-        
+
         const insert_query = mysql.format(sqlSearch,[nombre, descripcion, imagen, precio, categoria ,id]);
         await connection.query(insert_query, (err, result)=>{
             if(err) throw (err);
@@ -283,7 +283,7 @@ app.post("/agregarcategoria",verificarJWT, async(req, res)=>{
     db.getConnection(async (err, connection)=>{
         if(err) throw (err);
         const sqlSearch = "INSERT INTO categoria (`id`, `nombre`) VALUES (null,?)"
-        
+
         const insert_query = mysql.format(sqlSearch,[nombre]);
         await connection.query(insert_query, (err, result)=>{
             if(err) throw (err);
@@ -301,8 +301,8 @@ app.post("/editarcategoria",verificarJWT, async(req, res)=>{
     const id = req.body.id
     db.getConnection(async (err, connection)=>{
         if(err) throw (err);
-        const sqlSearch = "UPDATE productos SET nombre = ? where id = ?"
-        
+        const sqlSearch = "UPDATE categoria SET nombre = ? where id = ?"
+
         const insert_query = mysql.format(sqlSearch,[nombre, id]);
         await connection.query(insert_query, (err, result)=>{
             if(err) throw (err);
@@ -352,7 +352,7 @@ app.post('/upload', multiPartMiddleware, function (req, res) {
         return res.send({
           success: false
         });
-    
+
       } else {
         console.log('file received');
         return res.send({
