@@ -150,7 +150,7 @@ app.post("/ingresar", (req, res)=>{
 app.get("/getproductos", (req, res)=>{
     db.getConnection(async (err, connection)=>{
         if (err) throw (err)
-        const sqlSearch = "Select * from productos"
+        const sqlSearch = "SELECT p.*, c.nombre as nombrecat FROM productos p INNER JOIN categoria c on c.id = p.categoria"
         const search_query = mysql.format(sqlSearch)
         await connection.query (search_query, async (err, result) => {
             if (err) throw (err)
