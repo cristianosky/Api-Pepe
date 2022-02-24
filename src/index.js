@@ -27,7 +27,6 @@ const db = mysql.createPool({
     user: process.env.DB_USER,         // "newuser" created in Step 1(e)
     password: process.env.DB_PASSWORD,  // password for the new user
     database: process.env.DB_DATABASE,      // Database name
-    port: process.env.DB_PORT
 })
 
 app.use(function (req, res, next) {
