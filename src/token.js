@@ -21,7 +21,7 @@ function verificarJWT(req, res, next){
     }else{
         res.send({
             "status": false,
-            "mensaje": "Token no proporcionado"
+            "mensaje": "Token no proporcionado "
         })
     }
 }
