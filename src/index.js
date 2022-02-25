@@ -8,6 +8,8 @@ const dotenv = require('dotenv');
 const multer = require('multer');
 const cord = require('cors')
 const multipar = require('connect-multiparty')
+const fileUpload = require("express-fileupload");
+const path = require("path");
 
 const multiPartMiddleware = multipar({
     uploadDir: 'src/subidas'
@@ -18,8 +20,14 @@ const multiPartMiddleware = multipar({
 app.use(body.urlencoded({ extended: true }));
 app.use(body.json());
 app.use(cord())
+app.use(
+  fileUpload()
+);
 dotenv.config()
-app.listen(process.env.PORT);
+// const port = process.env.PORT || 3000
+// app.listen(port, function(){
+//     console.log(port)
+// });
 
 
 const db = mysql.createPool({
@@ -43,7 +51,7 @@ db.getConnection((err, connection)=>{
     if(err) throw (err);
     console.log("Conexion exitosa: "+connection.threadId);
 });
-console.log('Server iniciado');
+console.log('Server iniciado', process.env.PORT);
 
 
 //Auth
@@ -343,19 +351,19 @@ app.get("/verifi", verificarJWT, (req, res)=>{
 
 ///
 
-app.post('/upload', multiPartMiddleware, function (req, res) {
-    console.log(req)
-    return
-    if (!req.file) {
-        console.log("No file received");
-        return res.send({
-          success: false
-        });
+app.post("/upload", (req, res) => {
+  if (!req.files) {
+    return res.status(400).send("No files were uploaded.");
+  }
 
-      } else {
-        console.log('file received');
-        return res.send({
-          success: true
-        })
-      }
+  const file = req.files.img;
+  const path = __dirname + "/files/" + file.name;
+  console.log(path)
+
+  file.mv(path, (err) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    return res.send({ status: "success", path: path });
+  });
 });
