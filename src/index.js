@@ -124,7 +124,8 @@ app.post("/ingresar", (req, res)=>{
                     const json = {
                         id: result[0].id,
                         name: result[0].nombre,
-                        rol: result[0].rol
+                        rol: result[0].rol,
+                        imgP: result[0].imgP
                     }
                     const token = generateAccessToken(json)
                     res.send({
@@ -134,7 +135,8 @@ app.post("/ingresar", (req, res)=>{
                             "perfil": {
                                 "id": result[0].id,
                                 "name": result[0].nombre,
-                                "rol": result[0].rol
+                                "rol": result[0].rol,
+                                "imgP": result[0].imgP
                             }
                         }
                     })
